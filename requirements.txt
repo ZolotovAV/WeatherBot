@@ -1,0 +1,17 @@
+certifi==2017.7.27.1
+chardet==3.0.4
+Django==1.11.5
+future==0.16.0
+get==0.0.21
+idna==2.6
+post==0.0.13
+public==0.0.38
+python-telegram-bot==8.0
+pytz==2017.2
+query-string==0.0.12
+request==0.0.13
+requests==2.18.4
+setupfiles==0.0.50
+twx.botapi==3.1.1
+urllib3==1.22
+virtualenv==15.1.0
