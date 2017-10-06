@@ -27,11 +27,7 @@ def get_weather(text):
         return weather
 
 
-    try:
-        weather != response['name'] + '  ' + response['sys']['country'] + '\n' + 'От ' + str(response['main']['temp_min'])\
-                  + '°C' + ' до ' + str(response['main']['temp_max']) + '°C' + '  ' + response['weather'][-1]['description']
-    except KeyError:
-        return error_pic
+
 
 
 
