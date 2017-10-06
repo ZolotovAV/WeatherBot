@@ -12,6 +12,7 @@ def get_weather(text):
 
     response = requests.get(url).json()
     error = 'Город не найден.'
+    error_pic = 'Пиши текст.'
 
 
 
@@ -24,6 +25,13 @@ def get_weather(text):
         return error
     else:
         return weather
+
+
+    try:
+        weather != response['name'] + '  ' + response['sys']['country'] + '\n' + 'От ' + str(response['main']['temp_min'])\
+                  + '°C' + ' до ' + str(response['main']['temp_max']) + '°C' + '  ' + response['weather'][-1]['description']
+    except KeyError:
+        return error_pic
 
 
 
