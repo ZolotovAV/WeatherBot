@@ -48,7 +48,7 @@ def get_message():
     else:
         return 'Пиши текст.'
 
-    return None
+
 
 
 def send_message(chat_id, text='Момент'):
