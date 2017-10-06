@@ -44,9 +44,9 @@ def get_message():
         message_text = last_object['message']['text']
         if message_text != last_object['message']['text']:
             return 'Пиши текст'
-
-        message = {'chat_id': chat_id, 'text': message_text}
-        return message
+        else:
+            message = {'chat_id': chat_id, 'text': message_text}
+            return message
 
     return None
 
