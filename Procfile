@@ -1,1 +1,1 @@
-web: python bot.py $PORT
+web: bundle exec thin start -p $PORT
