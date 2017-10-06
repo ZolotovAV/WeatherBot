@@ -42,11 +42,11 @@ def get_message():
 
         chat_id = last_object['message']['chat']['id']
         message_text = last_object['message']['text']
-        if message_text != last_object['message']['text']:
-            return 'Пиши текст'
-        else:
-            message = {'chat_id': chat_id, 'text': message_text}
-            return message
+
+        message = {'chat_id': chat_id, 'text': message_text}
+        return message
+    else:
+        return 'Пиши текст.'
 
     return None
 
