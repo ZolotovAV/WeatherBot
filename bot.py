@@ -1,86 +1,58 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import requests
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+import logging
 import misc
 from weather import get_weather
-from time import sleep
-import json
 
 
+logger = logging.getLogger(__name__)
 token = misc.token
 
-# https://api.telegram.org/bot"Ваш token Telegram"/sendmessage?chat_id=292543111&text=hi
-URL = 'https://api.telegram.org/bot' + token + '/'
+def start(bot, update):
+    update.message.reply_text('Я покажу тебе погоду в любой точке мира, в момент запроса. Начнем?')
+    """keyboard = [InlineKeyboardButton("Option 1", callback_data='1'),
+                InlineKeyboardButton("Option 2", callback_data='2')],
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    update.message.reply_text('Выберите', reply_markup=reply_markup)"""
+
+def button(bot, update):
+    query = update.callback_query
+
+    bot.edit_message_text(text="Selected option: %s" % query.data,
+                          chat_id=query.message.chat_id,
+                          message_id=query.message.chat_id)
+
+def help(bot, update):
+    update.message.reply_text("Use /start to test this bot.")
+
+def echo(bot, update):
+    update.message.reply_text(get_weather(update.message.text))
 
 
-global last_update_id
-last_update_id = 0
-
-
-
-
-def get_updates():
-    url = URL + 'getupdates'
-    r = requests.get(url)
-    return r.json()
-
-
-def start_help():
-    pass
-
-
-def get_message():
-    data = get_updates()
-
-    last_object = data['result'][-1]
-    current_update_id = last_object['update_id']
-
-    global last_update_id
-    if last_update_id != current_update_id:
-        last_update_id = current_update_id
-
-        chat_id = last_object['message']['chat']['id']
-        message_text = last_object['message']['text']
-
-        message = {'chat_id': chat_id, 'text': message_text}
-        return message
-
-    return None
-
-
-def send_message(chat_id, text='Момент'):
-    url = URL + 'sendmessage?chat_id={}&text={}'.format(chat_id, text)
-    requests.get(url)
-
-
-def error_message(chat_id, text):
-    pass
 
 
 def main():
-#    d = get_updates()
+    #Token
+    updater = Updater(token)
 
-#    with open('updates.json', 'w') as file:
-#        json.dump(d, file, indent=2, ensure_ascii=False)
-    while True:
-        answer = get_message()
+    dp = updater.dispatcher
 
-        if answer != None:
-            chat_id = answer['chat_id']
-            text = answer['text']
+    dp.add_handler(CommandHandler('start', start))
 
-            if text == '/Start':
-                send_message(chat_id, 'Данный бот показывает погоду в любой точке мира в момент запроса, вызовите /Help')
-            elif text == '/Help':
-                send_message(chat_id, 'Принимаются команды только на латинице - Samara')
-            elif text == text:
-                send_message(chat_id, get_weather(text))
+    dp.add_handler(CallbackQueryHandler(button))
 
-        else:
-            continue
+    dp.add_handler(MessageHandler(Filters.text, echo))
 
+    dp.add_handler(CommandHandler('help', help))
 
+    updater.start_polling()
+
+    #updater.idle()
 
 
 
