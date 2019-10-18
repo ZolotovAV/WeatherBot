@@ -13,5 +13,5 @@ request==0.0.13
 requests==2.18.4
 setupfiles==0.0.50
 twx.botapi==3.1.1
-urllib3==1.22
+urllib3==1.24.2
 virtualenv==15.1.0
